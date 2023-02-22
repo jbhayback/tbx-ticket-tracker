@@ -73,6 +73,19 @@ This project is a simple CRUD application for tracking project tickets. User can
   python manage.py createsuperuser
   ```
 
+  __IMPORTANT__: After performing the commands above, please restart all the containers to refresh the application.
+  Failure to do this will not make the application to work.
+  ```
+  docker-compose down
+  docker-compose up
+  ```
+
+  or Ctrl + C then
+  ```
+  docker-compose up
+  ```
+
+
 - ### Vagrant
 
   This repository includes a Vagrantfile for running the project in a Debian VM.
