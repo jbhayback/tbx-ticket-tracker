@@ -1,0 +1,47 @@
+version: '3.4'
+services:
+  db:
+    image: postgres:11.6
+    ports:
+      - '5432'
+    expose:
+      - '5432'
+    environment:
+      POSTGRES_DB: tbxcodingtask
+      POSTGRES_USER: tbxcodingtask
+      POSTGRES_HOST_AUTH_METHOD: trust
+
+  web:
+    environment:
+      DJANGO_SETTINGS_MODULE: tbxcodingtask.settings.dev
+      ALLOWED_HOSTS: 127.0.0.1,0.0.0.0,localhost
+      SECRET_KEY: local_dev_secret_key
+      DATABASE_URL: postgres://tbxcodingtask:postgres@db:5432/tbxcodingtask
+      STATIC_URL: /static/
+      STATIC_DIR: /app/static/
+      MEDIA_DIR: /app/media/
+      SECURE_SSL_REDIRECT: 'false'
+      RECAPTCHA_PUBLIC_KEY: UPDATE_THIS
+      RECAPTCHA_PRIVATE_KEY: UPDATE_THIS
+      PYTHONUNBUFFERED: 1
+      PYTHONBREAKPOINT: pudb.set_trace
+      stdin_open: 'true'
+      tty: 'true'
+    volumes:
+      - ./:/app/:rw
+    build:
+      context: .
+      args:
+        BUILD_ENV: '${BUILD_ENV:-dev}'
+      dockerfile: ./Dockerfile
+    links:
+      - db:db
+    ports:
+      - '8000:8000'
+    depends_on:
+      - db
+    command:
+      - python
+      - manage.py
+      - runserver
+      - 0.0.0.0:8000
