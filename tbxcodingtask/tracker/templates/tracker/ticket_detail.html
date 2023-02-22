@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+
+
+{% block content %}
+<div>
+  <table>
+    <tr>
+      <td style="vertical-align: top;" width="30%">
+        <div style="padding-top: 13px;">
+          <h3>{% block title %} {{ ticket.title }} {% endblock title %}</h3>
+          <p class=" text-muted" style="color:rgba(21, 21, 185, 0.932)">{{ ticket.created_by }} | {{ ticket.created }}</p>
+          <p class="card-text ">{{ ticket.description | safe }}</p>
+        </div>
+        <div>
+          <a href="{% url "ticket_update" project_id=ticket.project.pk ticket_id=ticket.pk %}">
+            <i class="fi-pencil">
+              Edit |
+            </i>
+          </a>
+          <a href="{% url "ticket_delete" project_id=ticket.project.pk ticket_id=ticket.pk %}">
+            <i class="fi-trash">
+              Delete
+            </i>
+          </a>
+        </div>
+      </td>
+      <td>
+        <!-- comments -->
+        <table>
+          <th><h3> {{ ticket.comments.count }} Comments</h3></th>
+          {% for comment in ticket.comments.all %}
+          <tr>
+            <td>
+              <div class="comments" style="padding: 10px;">
+              <p class="font-weight-bold" style="color:rgba(21, 21, 185, 0.932)">
+                {{ comment.author }}
+                <span class=" text-muted font-weight-normal">
+                  {{ comment.created }}
+                </span>
+                {{ comment.content | linebreaks }}
+              </p>
+            </div>
+            </td>
+          </tr>
+          {% endfor %}
+        </table>
+      
+        <div>
+          <h3>Leave a comment</h3>
+          <form method="post" style="margin-top: 1.0em;">
+            {% crispy comment_form comment_form.helper %}
+            {% csrf_token %}
+          </form>
+        </div>
+      </td>
+    </tr>
+  </table>
+</div>
+
+
+{% endblock %}

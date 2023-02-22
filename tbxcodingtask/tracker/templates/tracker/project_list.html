@@ -7,17 +7,23 @@
 			<thead>
 				<tr>
 					<th width="1200">Project title</th>
-					<th></th>
+					<th>Ticket count</th>
 				</tr>
 			</thead>
 			<tbody>
-				{% for project in object_list %}
+				{% for project in projects %}
 				<tr>
 					<td><a href="{% url "project_detail" project_id=project.pk %}">{{ project.title }}</a></td>
+					<td>{{ project.tickets.count }}</td>
 					<td>
 						<a href="{% url "project_update" project_id=project.pk %}">
 							<i class="fi-pencil"></i>
 						</a>
+					</td>
+					<td>
+						<a href="{% url "project_delete" project_id=project.pk %}">
+						<i class="fi-trash">
+						</i>
 					</td>
 				</tr>
 				{% endfor %}
