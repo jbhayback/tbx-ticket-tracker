@@ -6,7 +6,9 @@
   <ol>
     <li>
       <a href="#about-the-project">About The Project</a>
-      <a href="#technical-design-document">Technical Design Document (TDD)</a>
+      <ul>
+        <li><a href="#technical-design-document">Technical Design Document (TDD)</a></li>
+      </ul>
       <ul>
         <li><a href="#built-with">Built With</a></li>
       </ul>
