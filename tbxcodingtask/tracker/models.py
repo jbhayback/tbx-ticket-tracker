@@ -21,7 +21,7 @@ class Ticket(TimeStampedModel):
     project = models.ForeignKey(
         Project,
         related_name="tickets",
-        on_delete=models.DO_NOTHING,
+        on_delete=models.CASCADE,
     )
     created_by = models.ForeignKey(
         settings.AUTH_USER_MODEL,
@@ -36,3 +36,20 @@ class Ticket(TimeStampedModel):
 
     def __str__(self):
         return self.title
+
+
+class Comment(TimeStampedModel):
+    ticket = models.ForeignKey(Ticket, on_delete=models.CASCADE, related_name='comments')
+    content = models.TextField()
+    author = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        null=True,
+        related_name="author",
+        on_delete=models.CASCADE,
+    )
+
+    class Meta:
+        ordering = ['created']
+
+    def __str__(self):
+        return f'Comment {self.content} by {self.author}'

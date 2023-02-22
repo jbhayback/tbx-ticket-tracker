@@ -1,6 +1,20 @@
 import factory
 
-from tbxcodingtask.tracker.models import Project, Ticket
+from django.contrib.auth.models import User
+from tbxcodingtask.tracker.models import (
+    Comment,
+    Project,
+    Ticket
+)
+
+
+class UserFactory(factory.django.DjangoModelFactory):
+    email = "test@test.com"
+    username = "test_user"
+    password = "test_password"
+
+    class Meta:
+        model = User
 
 
 class ProjectFactory(factory.django.DjangoModelFactory):
@@ -17,3 +31,17 @@ class TicketFactory(factory.django.DjangoModelFactory):
 
     class Meta:
         model = Ticket
+
+
+class CommentFactory(factory.django.DjangoModelFactory):
+    content = factory.Sequence(lambda n: f'Comment {n}')
+    ticket = factory.SubFactory(TicketFactory)
+    author = factory.SubFactory(UserFactory)
+
+    class Meta:
+        model = Comment
+
+
+
+
+    
